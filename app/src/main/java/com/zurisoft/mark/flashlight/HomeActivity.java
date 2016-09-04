@@ -174,6 +174,15 @@ public class HomeActivity extends AppCompatActivity {
         getCamera();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // on stop release the camera
+        if (mcamera != null) {
+            mcamera.release();
+            mcamera = null;
+        }
+    }
 
 
 }
