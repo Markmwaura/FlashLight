@@ -155,6 +155,25 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    protected void onPause() {
+        super.onPause();
+        // on pause turn off the flash
+        turnOffFlash();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // on resume turn on the flash
+        if(hasFlash)
+            turnOnFlash();
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // on starting the app get the camera params
+        getCamera();
+    }
+
 
 
 }
