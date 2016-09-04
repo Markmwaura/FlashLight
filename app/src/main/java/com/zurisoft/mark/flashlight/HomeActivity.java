@@ -138,4 +138,23 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    private void turnOnFlash() {
+        if (!isFlashOn) {
+            if (mcamera == null || param == null) {
+                return;
+            }
+            // play sound
+            playSound();
+            param = mcamera.getParameters();
+            param.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            mcamera.setParameters(param);
+            mcamera.startPreview();
+            isFlashOn = true;
+            // changing button/switch image
+            toggleImageButton();
+        }
+    }
+
+
+
 }
