@@ -126,5 +126,16 @@ public class HomeActivity extends AppCompatActivity {
             toggleImageButton();
         }
     }
+    /*
+     * Toggle switch button images
+     * changing image states to on / off
+     * */
+    private void toggleImageButton(){
+        if(isFlashOn){
+            buttonSwitcher.setImageResource(R.drawable.btn_switch_on);
+        }else{
+            buttonSwitcher.setImageResource(R.drawable.btn_switch_off);
+        }
+    }
 
 }
