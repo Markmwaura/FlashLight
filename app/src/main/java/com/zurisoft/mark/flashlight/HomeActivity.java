@@ -15,15 +15,16 @@ import android.widget.ImageButton;
 /**
  * Created by mark on 01/09/16.
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements  View.OnClickListener {
 
     private boolean isFlashOn;
-    private boolean hasFlash;
+    public MainApplication hasFlash;
 
     ImageButton buttonSwitcher;
     private Camera mcamera;
     Camera.Parameters param;
     MediaPlayer mplayer;
+    MainApplication globalVariable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +35,24 @@ public class HomeActivity extends AppCompatActivity {
       /*
        * First check if device is supporting flashlight or not
        */
-        hasFlash = getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        if (!hasFlash) {
+
+
+        checkForFlashCapability();
+        // get the camera
+        getCamera();
+        // displaying button image
+        toggleImageButton();
+      /*
+       * Switch button click event to toggle flash on/off
+       */
+        buttonSwitcher.setOnClickListener(this);
+    }
+//Check for Flash capability
+    private void checkForFlashCapability() {
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        globalVariable = (MainApplication) getApplicationContext();
+
+        if (!globalVariable.hasFlash) {
             // device doesn't support flash
             // Show alert message and close the application
             AlertDialog alert = new AlertDialog.Builder(HomeActivity.this)
@@ -52,26 +68,10 @@ public class HomeActivity extends AppCompatActivity {
             alert.show();
             return;
         }
-        // get the camera
-        getCamera();
-        // displaying button image
-        toggleImageButton();
-      /*
-       * Switch button click event to toggle flash on/off
-       */
-        buttonSwitcher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFlashOn) {
-                    // turn off flash
-                    turnOffFlash();
-                } else {
-                    // turn on flash
-                    turnOnFlash();
-                }
-            }
-        });
     }
+
+
+
 
 
     /*
@@ -164,7 +164,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // on resume turn on the flash
-        if(hasFlash)
+        if(globalVariable.hasFlash)
             turnOnFlash();
     }
     @Override
@@ -185,4 +185,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+
+            case R.id.btnSwitch:
+                if (isFlashOn) {
+                    // turn off flash
+                    turnOffFlash();
+                } else {
+                    // turn on flash
+                    turnOnFlash();
+                }
+
+
+
+
+        }
+
+    }
 }
